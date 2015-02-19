@@ -24,6 +24,11 @@ class ViewController: UIViewController {
     var recorder: AVAudioRecorder!
     var meterTimer:NSTimer!
     var soundFileURL:NSURL?
+    
+    var arrayLength = 63
+    var arrayPointer = 0
+    var peakValues: [Double] = []
+    var apcValues: [Double] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,15 +64,60 @@ class ViewController: UIViewController {
             var apc0 = recorder.averagePowerForChannel(0)
             var peak0 = recorder.peakPowerForChannel(0)
             
+            if(arrayPointer == arrayLength){
+                arrayPointer = 0
+            }
+            //println("peakValues: \(Double(pow(10,peak0/10)))")
+            //println("apcValues: \(Double(pow(10,apc0/10)))")
+            //println("apc: \(apc0)")
+
+            peakValues.insert(Double(peak0), atIndex: arrayPointer)
+            apcValues.insert(Double(apc0), atIndex: arrayPointer)
+            
+            //println("peakValues: \(peakValues)")
+            //println("peakValues: \(apcValues)")
+            var peakSum = 0.0
+            for peak in peakValues {
+                peakSum += peak;
+            }
+            var peakAverage = peakSum/(Double(peakValues.endIndex) - Double(peakValues.startIndex))
+
+            var apcSum = 0.0
+            for apc in apcValues {
+                apcSum += apc
+            }
+            var apcAverage = apcSum/(Double(apcValues.endIndex) - Double(apcValues.startIndex))
+            
+            //apcAverage + peakAverage - größte Wert
+            //apcAverage - peakAverage - kleinste Wert
+            
+            var currentVolume = Double(apc0)
+            
+            println("currentVolume: \(currentVolume)")
+            println("apcAverage: \(apcAverage)")
+            println("peakAverage: \(peakAverage)")
+
+            
+            if currentVolume <  apcAverage + peakAverage {
+                currentVolume = apcAverage + peakAverage
+            } else if currentVolume > apcAverage - peakAverage {
+                currentVolume = apcAverage - peakAverage
+            }
+            
+            println("Untere Grenze: \(apcAverage - peakAverage)")
+            println("Obere Grenze: \(apcAverage + peakAverage) ")
+            
+            var r = CGFloat(((apcAverage + peakAverage) - currentVolume)/((apcAverage + peakAverage)-(apcAverage - peakAverage)))
+            arrayPointer++
+
             volLabel!.text = "Volume: \(apc0)"
             peakLabel!.text = "Peak: \(peak0)"
             
-            var r = CGFloat(pow(10,apc0/10))
+            //var r = CGFloat(pow(10,peak0/10))
             var b = abs(1-r)
             
             self.view.backgroundColor = UIColor(red: r, green: 0, blue: abs(1-r), alpha: 1)
             
-            println("Color: )")
         }
     }
 
@@ -160,7 +210,7 @@ class ViewController: UIViewController {
                         self.setupRecorder()
                     }
                     self.recorder.record()
-                    self.meterTimer = NSTimer.scheduledTimerWithTimeInterval(0.1,
+                    self.meterTimer = NSTimer.scheduledTimerWithTimeInterval(0.001,
                         target:self,
                         selector:"updateAudioMeter:",
                         userInfo:nil,
