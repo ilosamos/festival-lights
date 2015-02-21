@@ -25,14 +25,15 @@ class ViewController: UIViewController {
     var meterTimer:NSTimer!
     var soundFileURL:NSURL?
     
-    var arrayLength = 63
+    var arrayLength = 100
     var arrayPointer = 0
-    var peakValues: [Double] = []
-    var apcValues: [Double] = []
+    var apcValues = Array(count: 100, repeatedValue:Double())
+    var peakValues = Array(count:100, repeatedValue:Double())
+    var scale = 0.8
+    var decrementAverageSkalar = 0.10
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         stateButton.setTitle("RECORD", forState: UIControlState.Normal)
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -67,12 +68,14 @@ class ViewController: UIViewController {
             if(arrayPointer == arrayLength){
                 arrayPointer = 0
             }
-            //println("peakValues: \(Double(pow(10,peak0/10)))")
-            //println("apcValues: \(Double(pow(10,apc0/10)))")
+            println("\(arrayPointer)")
+            println("peakValues: \(peakValues)")
+            println("apcValues: \(apcValues)")
             //println("apc: \(apc0)")
 
-            peakValues.insert(Double(peak0), atIndex: arrayPointer)
-            apcValues.insert(Double(apc0), atIndex: arrayPointer)
+            peakValues[arrayPointer]=Double(peak0)
+            apcValues[arrayPointer]=Double(apc0)
+
             
             //println("peakValues: \(peakValues)")
             //println("peakValues: \(apcValues)")
@@ -98,26 +101,41 @@ class ViewController: UIViewController {
             println("peakAverage: \(peakAverage)")
 
             
-            if currentVolume <  apcAverage + peakAverage {
-                currentVolume = apcAverage + peakAverage
-            } else if currentVolume > apcAverage - peakAverage {
-                currentVolume = apcAverage - peakAverage
+            if currentVolume <  (peakAverage - abs(apcAverage - peakAverage)*scale) {
+                currentVolume = (peakAverage - abs(apcAverage - peakAverage)*scale)
+            } else if currentVolume > (peakAverage + abs(apcAverage - peakAverage)*scale) {
+                currentVolume = (peakAverage + abs(apcAverage - peakAverage)*scale)
             }
             
-            println("Untere Grenze: \(apcAverage - peakAverage)")
-            println("Obere Grenze: \(apcAverage + peakAverage) ")
+            println("Untere Grenze: \(peakAverage - abs(apcAverage - peakAverage))")
+            println("Obere Grenze: \(peakAverage + abs(apcAverage - peakAverage))")
             
-            var r = CGFloat(((apcAverage + peakAverage) - currentVolume)/((apcAverage + peakAverage)-(apcAverage - peakAverage)))
+            var r = CGFloat((abs((peakAverage + abs(apcAverage - peakAverage)*scale) - currentVolume))/(abs((peakAverage + abs(apcAverage - peakAverage)*scale) - (peakAverage - abs(apcAverage - peakAverage)*scale))))
             arrayPointer++
-
+            println("Color r: \(r)")
             volLabel!.text = "Volume: \(apc0)"
             peakLabel!.text = "Peak: \(peak0)"
             
             //var r = CGFloat(pow(10,peak0/10))
             var b = abs(1-r)
             
-            self.view.backgroundColor = UIColor(red: r, green: 0, blue: abs(1-r), alpha: 1)
+            //silent:blue - loud:green
+            //self.view.backgroundColor = UIColor(red: 0, green: r, blue: abs(1-r), alpha: 1)
+            //silent:pink - loud:yellow
+            //self.view.backgroundColor = UIColor(red: 1, green: r, blue: abs(1-r), alpha: 1)
+            //silent:blue - loud:red
+            self.view.backgroundColor = UIColor(red: abs(1-r), green: 0, blue: r, alpha: 1)
+            //silent:green - loud:yellow
+            //self.view.backgroundColor = UIColor(red: r, green: 1, blue: abs(1-r), alpha: 1)
+            //silent:green - loud:red
+            //self.view.backgroundColor = UIColor(red: r, green: abs(1-r), blue: 0, alpha: 1)
+            //silent:helbblau - loud:magenta
+            //self.view.backgroundColor = UIColor(red: r, green: abs(1-r), blue: 1, alpha: 1)
             
+            for i in (0...peakValues.count-1) {
+                peakValues[i]=peakValues[i] - decrementAverageSkalar
+                apcValues[i]=apcValues[i] - decrementAverageSkalar
+            }
         }
     }
 
