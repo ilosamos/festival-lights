@@ -12,9 +12,9 @@ import Darwin
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var startLabel: UILabel!
     @IBOutlet weak var volLabel: UILabel!
     @IBOutlet weak var peakLabel: UILabel!
-    @IBOutlet weak var stateButton: UIButton!
     
     //TickTimers
     var syncTimer : NSTimer = NSTimer()
@@ -29,29 +29,16 @@ class ViewController: UIViewController {
     var arrayPointer = 0
     var apcValues = Array(count: 100, repeatedValue:Double())
     var peakValues = Array(count:100, repeatedValue:Double())
-    var scale = 0.8
+    var scale = 1.0
     var decrementAverageSkalar = 0.10
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        stateButton.setTitle("RECORD", forState: UIControlState.Normal)
-        // Do any additional setup after loading the view, typically from a nib.
         
-        /*BlinkSystem
-        let syncSelector : Selector = "syncTime"
+        var tapGesture = UITapGestureRecognizer(target: self, action: "record:")
+        tapGesture.numberOfTapsRequired = 1
+        view.addGestureRecognizer(tapGesture)
         
-        var t = NSDate().timeIntervalSince1970;
-        var waitTime = 1 - (t - floor(t))
-        println(waitTime)
-        
-        syncTimer = NSTimer.scheduledTimerWithTimeInterval(waitTime, target: self, selector: syncSelector, userInfo: nil, repeats: false)*/
-        
-        /*AudioRecordingSystem*/
-        
-    }
-    
-    
-    @IBAction func stateButtonPressed(sender: AnyObject) {
     }
     
     func updateAudioMeter(timer:NSTimer) {
@@ -124,11 +111,11 @@ class ViewController: UIViewController {
             //silent:pink - loud:yellow
             //self.view.backgroundColor = UIColor(red: 1, green: r, blue: abs(1-r), alpha: 1)
             //silent:blue - loud:red
-            self.view.backgroundColor = UIColor(red: abs(1-r), green: 0, blue: r, alpha: 1)
+            //self.view.backgroundColor = UIColor(red: abs(1-r), green: 0, blue: r, alpha: 1)
             //silent:green - loud:yellow
             //self.view.backgroundColor = UIColor(red: r, green: 1, blue: abs(1-r), alpha: 1)
             //silent:green - loud:red
-            //self.view.backgroundColor = UIColor(red: r, green: abs(1-r), blue: 0, alpha: 1)
+            self.view.backgroundColor = UIColor(red: r, green: abs(1-r), blue: 0, alpha: 1)
             //silent:helbblau - loud:magenta
             //self.view.backgroundColor = UIColor(red: r, green: abs(1-r), blue: 1, alpha: 1)
             
@@ -139,11 +126,12 @@ class ViewController: UIViewController {
         }
     }
 
+    //Start recording after tap
     @IBAction func record(sender: UIButton) {
         
         if recorder == nil {
+            startLabel.hidden = true
             println("recording. recorder nil")
-            stateButton.setTitle("Stop", forState:.Normal)
             recordWithPermission(true)
             return
         }
@@ -153,11 +141,9 @@ class ViewController: UIViewController {
             recorder.stop()
             stop()
             deleteAllRecordings()
-            stateButton.setTitle("Start", forState:.Normal)
             
         } else {
             println("recording")
-            stateButton.setTitle("Pause", forState:.Normal)
             recordWithPermission(false)
         }
     }
@@ -167,7 +153,6 @@ class ViewController: UIViewController {
         recorder.stop()
         meterTimer.invalidate()
         
-        stateButton.setTitle("Record", forState:.Normal)
         let session:AVAudioSession = AVAudioSession.sharedInstance()
         var error: NSError?
         if !session.setActive(false, error: &error) {
@@ -177,7 +162,6 @@ class ViewController: UIViewController {
                 return
             }
         }
-        stateButton.enabled = true
         recorder = nil
     }
 
