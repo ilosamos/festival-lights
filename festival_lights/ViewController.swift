@@ -25,12 +25,13 @@ class ViewController: UIViewController {
     var meterTimer:NSTimer!
     var soundFileURL:NSURL?
     
-    var arrayLength = 100
+    let arrayLength = 50
     var arrayPointer = 0
-    var apcValues = Array(count: 100, repeatedValue:Double())
-    var peakValues = Array(count:100, repeatedValue:Double())
+    var apcValues = Array(count: 50, repeatedValue:Double())
+    var peakValues = Array(count: 50, repeatedValue:Double())
+    var intervalMinimum : Double = 30
     var scale = 1.0
-    var decrementAverageSkalar = 0.10
+    var decrementAverageSkalar = 0.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,18 +87,48 @@ class ViewController: UIViewController {
             println("currentVolume: \(currentVolume)")
             println("apcAverage: \(apcAverage)")
             println("peakAverage: \(peakAverage)")
-
+        
+            var minVolume : Double = 0
             
-            if currentVolume <  (peakAverage - abs(apcAverage - peakAverage)*scale) {
-                currentVolume = (peakAverage - abs(apcAverage - peakAverage)*scale)
-            } else if currentVolume > (peakAverage + abs(apcAverage - peakAverage)*scale) {
-                currentVolume = (peakAverage + abs(apcAverage - peakAverage)*scale)
+            for i in 0...apcValues.count-1 {
+                if (apcValues[i] < minVolume){minVolume = apcValues[i]}
+            }
+            /*
+            var minLimit : Double = minVolume;
+            var maxLimit : Double = peakAverage;
+            
+            if currentVolume < minLimit {
+                currentVolume = minLimit
+            } else if currentVolume > maxLimit {
+                currentVolume = maxLimit;
+            }
+           
+            */
+            var minLimit : Double = apcAverage - abs(apcAverage - peakAverage);
+            var maxLimit : Double = apcAverage + abs(apcAverage - peakAverage);
+            
+            // Intervall should never be under intervalMinimum
+            
+            if(maxLimit - minLimit < intervalMinimum) {
+                var tmpFactor : Double = intervalMinimum/(maxLimit - minLimit)
+                maxLimit = maxLimit*tmpFactor
+                minLimit = minLimit*tmpFactor
+                currentVolume = currentVolume*tmpFactor
             }
             
-            println("Untere Grenze: \(peakAverage - abs(apcAverage - peakAverage))")
-            println("Obere Grenze: \(peakAverage + abs(apcAverage - peakAverage))")
+            if currentVolume < minLimit {
+                currentVolume = minLimit
+            } else if currentVolume > maxLimit {
+                currentVolume = maxLimit
+            }
             
-            var r = CGFloat((abs((peakAverage + abs(apcAverage - peakAverage)*scale) - currentVolume))/(abs((peakAverage + abs(apcAverage - peakAverage)*scale) - (peakAverage - abs(apcAverage - peakAverage)*scale))))
+            //var r = CGFloat((abs((peakAverage + abs(apcAverage - peakAverage)*scale) - currentVolume))/(abs((peakAverage + abs(apcAverage - peakAverage)*scale) - (peakAverage - abs(apcAverage - peakAverage)*scale))))
+            
+            println("Untere Grenze: \(minLimit)")
+            println("Obere Grenze: \(maxLimit)")
+            
+            var r = CGFloat(abs(maxLimit-currentVolume)/abs(maxLimit-minLimit))
+            
             arrayPointer++
             println("Color r: \(r)")
             volLabel!.text = "Volume: \(apc0)"
@@ -115,7 +146,7 @@ class ViewController: UIViewController {
             //silent:green - loud:yellow
             //self.view.backgroundColor = UIColor(red: r, green: 1, blue: abs(1-r), alpha: 1)
             //silent:green - loud:red
-            self.view.backgroundColor = UIColor(red: r, green: abs(1-r), blue: 0, alpha: 1)
+            self.view.backgroundColor = UIColor(red: abs(1-r), green: r, blue: 0, alpha: 1)
             //silent:helbblau - loud:magenta
             //self.view.backgroundColor = UIColor(red: r, green: abs(1-r), blue: 1, alpha: 1)
             
@@ -212,7 +243,7 @@ class ViewController: UIViewController {
                         self.setupRecorder()
                     }
                     self.recorder.record()
-                    self.meterTimer = NSTimer.scheduledTimerWithTimeInterval(0.001,
+                    self.meterTimer = NSTimer.scheduledTimerWithTimeInterval(0.01,
                         target:self,
                         selector:"updateAudioMeter:",
                         userInfo:nil,
