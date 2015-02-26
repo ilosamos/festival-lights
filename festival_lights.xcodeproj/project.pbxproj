@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0337E7621A9FAB1200DEFD4F /* LightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0337E7611A9FAB1200DEFD4F /* LightView.swift */; };
 		4C455DC91A93C34900C80790 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C455DC81A93C34900C80790 /* AppDelegate.swift */; };
 		4C455DCC1A93C34900C80790 /* festival_lights.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4C455DCA1A93C34900C80790 /* festival_lights.xcdatamodeld */; };
 		4C455DCE1A93C34900C80790 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C455DCD1A93C34900C80790 /* ViewController.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0337E7611A9FAB1200DEFD4F /* LightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightView.swift; sourceTree = "<group>"; };
 		4C455DC31A93C34900C80790 /* festival_lights.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = festival_lights.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C455DC71A93C34900C80790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C455DC81A93C34900C80790 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				4C455DD41A93C34900C80790 /* LaunchScreen.xib */,
 				4C455DCA1A93C34900C80790 /* festival_lights.xcdatamodeld */,
 				4C455DC61A93C34900C80790 /* Supporting Files */,
+				0337E7611A9FAB1200DEFD4F /* LightView.swift */,
 			);
 			path = festival_lights;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C455DCE1A93C34900C80790 /* ViewController.swift in Sources */,
+				0337E7621A9FAB1200DEFD4F /* LightView.swift in Sources */,
 				4C455DCC1A93C34900C80790 /* festival_lights.xcdatamodeld in Sources */,
 				4C455DC91A93C34900C80790 /* AppDelegate.swift in Sources */,
 			);
@@ -409,6 +413,7 @@
 				4C455DE71A93C34900C80790 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C455DE81A93C34900C80790 /* Build configuration list for PBXNativeTarget "festival_lightsTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +422,7 @@
 				4C455DEA1A93C34900C80790 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

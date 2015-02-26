@@ -10,7 +10,11 @@ import UIKit
 import AVFoundation
 import Darwin
 
-class ViewController: UIViewController {
+class ViewController: UIViewController , UIPageViewControllerDataSource{
+    
+    var pageViewController : UIPageViewController?
+    var views : Int = 3
+    var currentIndex : Int = 0
     
     @IBOutlet weak var startLabel: UILabel!
     @IBOutlet weak var volLabel: UILabel!
@@ -35,11 +39,99 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+        self.navigationController
         
         var tapGesture = UITapGestureRecognizer(target: self, action: "record:")
         tapGesture.numberOfTapsRequired = 1
         view.addGestureRecognizer(tapGesture)
+
+        pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
+        pageViewController!.dataSource = self
         
+        let startingViewController: LightView = viewControllerAtIndex(0)!
+        let viewControllers: NSArray = [startingViewController]
+        pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: false, completion: nil)
+        pageViewController!.view.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
+        pageViewController?.navigationController?.automaticallyAdjustsScrollViewInsets = false
+        pageViewController?.navigationController?.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+            
+        addChildViewController(pageViewController!)
+        view.addSubview(pageViewController!.view)
+        pageViewController!.didMoveToParentViewController(self)
+        
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
+    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?
+    {
+        var index = (viewController as LightView).pageIndex
+        
+        if (index == 0) || (index == NSNotFound) {
+            return nil
+        }
+        
+        index--
+        
+        return viewControllerAtIndex(index)
+    }
+    
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController?
+    {
+        var index = (viewController as LightView).pageIndex
+        
+        if index == NSNotFound {
+            return nil
+        }
+        
+        index++
+        
+        if (index == views) {
+            return nil
+        }
+        
+        return viewControllerAtIndex(index)
+    }
+    
+    func viewControllerAtIndex(index: Int) -> LightView?
+    {
+        if views == 0 || index >= views
+        {
+            return nil
+        }
+        
+        // Create a new view controller and pass suitable data.
+        let pageContentViewController = LightView()
+        
+        println("INDEX: \(index)")
+        
+        pageContentViewController.pageIndex = index
+        switch(index){
+        case 0:
+            pageContentViewController.view.backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1)
+        case 1:
+            pageContentViewController.view.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 1)
+        case 2:
+            pageContentViewController.view.backgroundColor = UIColor(red: 0, green: 0, blue: 1, alpha: 1)
+        default:
+            break
+        }
+        currentIndex = index
+        
+        return pageContentViewController
+    }
+    
+    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int
+    {
+        return views
+    }
+    
+    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int
+    {
+        return 0
     }
     
     func updateAudioMeter(timer:NSTimer) {
@@ -137,6 +229,17 @@ class ViewController: UIViewController {
             //var r = CGFloat(pow(10,peak0/10))
             var b = abs(1-r)
             
+            switch((pageViewController?.viewControllers[0] as LightView).pageIndex){
+            case 0:
+                (pageViewController?.viewControllers[0] as LightView).changeColor(UIColor(red: 0, green: r, blue: abs(1-r), alpha: 1))
+            case 1:
+                (pageViewController?.viewControllers[0] as LightView).changeColor(UIColor(red: abs(1-r), green: r, blue: 0, alpha: 1))
+            case 2:
+                (pageViewController?.viewControllers[0] as LightView).changeColor(UIColor(red: r, green: abs(1-r), blue: 1, alpha: 1))
+            default:
+                break
+            }
+            
             //silent:blue - loud:green
             //self.view.backgroundColor = UIColor(red: 0, green: r, blue: abs(1-r), alpha: 1)
             //silent:pink - loud:yellow
@@ -146,7 +249,7 @@ class ViewController: UIViewController {
             //silent:green - loud:yellow
             //self.view.backgroundColor = UIColor(red: r, green: 1, blue: abs(1-r), alpha: 1)
             //silent:green - loud:red
-            self.view.backgroundColor = UIColor(red: abs(1-r), green: r, blue: 0, alpha: 1)
+            //self.view.backgroundColor = UIColor(red: abs(1-r), green: r, blue: 0, alpha: 1)
             //silent:helbblau - loud:magenta
             //self.view.backgroundColor = UIColor(red: r, green: abs(1-r), blue: 1, alpha: 1)
             
