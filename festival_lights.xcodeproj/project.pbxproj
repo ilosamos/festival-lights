@@ -13,7 +13,6 @@
 		4C455DCE1A93C34900C80790 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C455DCD1A93C34900C80790 /* ViewController.swift */; };
 		4C455DD11A93C34900C80790 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C455DCF1A93C34900C80790 /* Main.storyboard */; };
 		4C455DD31A93C34900C80790 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C455DD21A93C34900C80790 /* Images.xcassets */; };
-		4C455DD61A93C34900C80790 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C455DD41A93C34900C80790 /* LaunchScreen.xib */; };
 		4C455DE21A93C34900C80790 /* festival_lightsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C455DE11A93C34900C80790 /* festival_lightsTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,7 +35,6 @@
 		4C455DCD1A93C34900C80790 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4C455DD01A93C34900C80790 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4C455DD21A93C34900C80790 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		4C455DD51A93C34900C80790 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		4C455DDB1A93C34900C80790 /* festival_lightsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = festival_lightsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C455DE01A93C34900C80790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C455DE11A93C34900C80790 /* festival_lightsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = festival_lightsTests.swift; sourceTree = "<group>"; };
@@ -85,7 +83,6 @@
 				4C455DCD1A93C34900C80790 /* ViewController.swift */,
 				4C455DCF1A93C34900C80790 /* Main.storyboard */,
 				4C455DD21A93C34900C80790 /* Images.xcassets */,
-				4C455DD41A93C34900C80790 /* LaunchScreen.xib */,
 				4C455DCA1A93C34900C80790 /* festival_lights.xcdatamodeld */,
 				4C455DC61A93C34900C80790 /* Supporting Files */,
 				0337E7611A9FAB1200DEFD4F /* LightView.swift */,
@@ -199,7 +196,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C455DD11A93C34900C80790 /* Main.storyboard in Resources */,
-				4C455DD61A93C34900C80790 /* LaunchScreen.xib in Resources */,
 				4C455DD31A93C34900C80790 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,14 +246,6 @@
 				4C455DD01A93C34900C80790 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		4C455DD41A93C34900C80790 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4C455DD51A93C34900C80790 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -344,6 +332,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = festival_lights/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -354,6 +343,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = festival_lights/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

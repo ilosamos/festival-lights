@@ -18,6 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        //Hide status bar on launch
+        application.statusBarHidden = true
+        
+        //Simulated Duration of Launch Image
+         sleep(1)
         return true
     }
 

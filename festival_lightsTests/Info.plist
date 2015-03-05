@@ -18,6 +18,8 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>UIStatusBarHidden</key>
+	<true/>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 </dict>
