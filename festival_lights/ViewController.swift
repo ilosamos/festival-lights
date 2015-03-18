@@ -36,6 +36,11 @@ class ViewController: UIViewController , UIPageViewControllerDataSource{
     var intervalMinimum : Double = 30
     var scale = 1.0
     var decrementAverageSkalar = 0.0
+    
+    //Colors
+    var color1 : ColorCalculator = ColorCalculator(MinRed: 0, MinGreen: 0, MinBlue: 0, MaxRed: 255, MaxGreen: 255, MaxBlue: 255)
+    var color2 : ColorCalculator = ColorCalculator(MinRed: 93, MinGreen: 200, MinBlue: 223, MaxRed: 255, MaxGreen: 0, MaxBlue: 234)
+    var color3 : ColorCalculator = ColorCalculator(MinRed: 40, MinGreen: 117, MinBlue: 14, MaxRed: 252, MaxGreen: 255, MaxBlue: 13)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,11 +116,11 @@ class ViewController: UIViewController , UIPageViewControllerDataSource{
         pageContentViewController.pageIndex = index
         switch(index){
         case 0:
-            pageContentViewController.view.backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1)
+            pageContentViewController.view.backgroundColor = color1.getUIColor(Percentage: 0)
         case 1:
-            pageContentViewController.view.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 1)
+            pageContentViewController.view.backgroundColor = color2.getUIColor(Percentage: 0)
         case 2:
-            pageContentViewController.view.backgroundColor = UIColor(red: 0, green: 0, blue: 1, alpha: 1)
+            pageContentViewController.view.backgroundColor = color3.getUIColor(Percentage: 0)
         default:
             break
         }
@@ -148,9 +153,9 @@ class ViewController: UIViewController , UIPageViewControllerDataSource{
             if(arrayPointer == arrayLength){
                 arrayPointer = 0
             }
-            println("\(arrayPointer)")
+            /*println("\(arrayPointer)")
             println("peakValues: \(peakValues)")
-            println("apcValues: \(apcValues)")
+            println("apcValues: \(apcValues)")*/
             //println("apc: \(apc0)")
 
             peakValues[arrayPointer]=Double(peak0)
@@ -176,9 +181,9 @@ class ViewController: UIViewController , UIPageViewControllerDataSource{
             
             var currentVolume = Double(apc0)
             
-            println("currentVolume: \(currentVolume)")
+            /*println("currentVolume: \(currentVolume)")
             println("apcAverage: \(apcAverage)")
-            println("peakAverage: \(peakAverage)")
+            println("peakAverage: \(peakAverage)")*/
         
             var minVolume : Double = 0
             
@@ -216,26 +221,26 @@ class ViewController: UIViewController , UIPageViewControllerDataSource{
             
             //var r = CGFloat((abs((peakAverage + abs(apcAverage - peakAverage)*scale) - currentVolume))/(abs((peakAverage + abs(apcAverage - peakAverage)*scale) - (peakAverage - abs(apcAverage - peakAverage)*scale))))
             
-            println("Untere Grenze: \(minLimit)")
-            println("Obere Grenze: \(maxLimit)")
+            /*println("Untere Grenze: \(minLimit)")
+            println("Obere Grenze: \(maxLimit)")*/
             
             var r = CGFloat(abs(maxLimit-currentVolume)/abs(maxLimit-minLimit))
             
             arrayPointer++
-            println("Color r: \(r)")
+            //println("Color r: \(r)")
             volLabel!.text = "Volume: \(apc0)"
             peakLabel!.text = "Peak: \(peak0)"
             
             //var r = CGFloat(pow(10,peak0/10))
-            var b = abs(1-r)
+            var p = abs(1-r)
             
             switch((pageViewController?.viewControllers[0] as LightView).pageIndex){
             case 0:
-                (pageViewController?.viewControllers[0] as LightView).changeColor(UIColor(red: 0, green: r, blue: abs(1-r), alpha: 1))
+                (pageViewController?.viewControllers[0] as LightView).changeColor(color1.getUIColor(Percentage: p))
             case 1:
-                (pageViewController?.viewControllers[0] as LightView).changeColor(UIColor(red: abs(1-r), green: r, blue: 0, alpha: 1))
+                (pageViewController?.viewControllers[0] as LightView).changeColor(color2.getUIColor(Percentage: p))
             case 2:
-                (pageViewController?.viewControllers[0] as LightView).changeColor(UIColor(red: r, green: abs(1-r), blue: 1, alpha: 1))
+                (pageViewController?.viewControllers[0] as LightView).changeColor(color3.getUIColor(Percentage: p))
             default:
                 break
             }
