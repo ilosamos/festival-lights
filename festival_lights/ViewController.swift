@@ -39,8 +39,8 @@ class ViewController: UIViewController , UIPageViewControllerDataSource{
     
     //Colors
     var color1 : ColorCalculator = ColorCalculator(MinRed: 0, MinGreen: 0, MinBlue: 0, MaxRed: 255, MaxGreen: 255, MaxBlue: 255)
-    var color2 : ColorCalculator = ColorCalculator(MinRed: 93, MinGreen: 200, MinBlue: 223, MaxRed: 255, MaxGreen: 0, MaxBlue: 234)
-    var color3 : ColorCalculator = ColorCalculator(MinRed: 40, MinGreen: 117, MinBlue: 14, MaxRed: 252, MaxGreen: 255, MaxBlue: 13)
+    var color2 : ColorCalculator = ColorCalculator(MinRed: 137, MinGreen: 27, MinBlue: 27, MaxRed: 252, MaxGreen: 255, MaxBlue: 13)
+    var color3 : ColorCalculator = ColorCalculator(MinRed: 93, MinGreen: 200, MinBlue: 223, MaxRed: 255, MaxGreen: 0, MaxBlue: 234)
 
     override func viewDidLoad() {
         super.viewDidLoad()
