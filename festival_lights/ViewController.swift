@@ -9,8 +9,9 @@
 import UIKit
 import AVFoundation
 import Darwin
+import StoreKit
 
-class ViewController: UIViewController , UIPageViewControllerDataSource{
+class ViewController: UIViewController , UIPageViewControllerDataSource, SKProductsRequestDelegate{
     
     var pageViewController : UIPageViewController?
     var views : Int = 3
@@ -37,10 +38,17 @@ class ViewController: UIViewController , UIPageViewControllerDataSource{
     var scale = 1.0
     var decrementAverageSkalar = 0.0
     
+    //Store UUID
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
+    //In App Purchase Product IDs
+    let RastaLightID = "festival_lights_rastalight"
+    
     //Colors
     var color1 : ColorCalculator = ColorCalculator(MinRed: 0, MinGreen: 0, MinBlue: 0, MaxRed: 255, MaxGreen: 255, MaxBlue: 255)
     var color2 : ColorCalculator = ColorCalculator(MinRed: 137, MinGreen: 27, MinBlue: 27, MaxRed: 252, MaxGreen: 255, MaxBlue: 13)
-    var color3 : ColorCalculator = ColorCalculator(MinRed: 93, MinGreen: 200, MinBlue: 223, MaxRed: 255, MaxGreen: 0, MaxBlue: 234)
+    var _color3 : ColorCalculator = ColorCalculator(MinRed: 93, MinGreen: 200, MinBlue: 223, MaxRed: 255, MaxGreen: 0, MaxBlue: 234)
+    var color3 : ColorCalculator = TriColorCalculator(MinRed: 61, MinGreen: 222, MinBlue: 30, MidRed: 249, MidGreen: 235, MidBlue: 24, MaxRed: 245, MaxGreen: 19, MaxBlue: 41)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +72,52 @@ class ViewController: UIViewController , UIPageViewControllerDataSource{
         addChildViewController(pageViewController!)
         view.addSubview(pageViewController!.view)
         pageViewController!.didMoveToParentViewController(self)
+        if defaults.stringForKey("UUID") == nil {
+            defaults.setObject(NSUUID().UUIDString, forKey: "UUID")
+        }
+        startLabel.text = defaults.stringForKey("UUID")
         
+        buyConsumable()
+    }
+    
+    func productsRequest (request: SKProductsRequest, didReceiveResponse response: SKProductsResponse){
+        println("got the request from Apple")
+        var count : Int = response.products.count
+        if (count>0) {
+            var validProducts = response.products
+            var validProduct: SKProduct = response.products[0] as SKProduct
+            if (validProduct.productIdentifier == self.RastaLightID) {
+                println(validProduct.localizedTitle)
+                println(validProduct.localizedDescription)
+                println(validProduct.price)
+                buyProduct(validProduct);
+            } else {
+                println(validProduct.productIdentifier)
+            }
+        } else {
+            println("nothing")
+        }
+    }
+    
+    func buyProduct(product: SKProduct){
+        println("Sending the Payment Request to Apple");
+        var payment = SKPayment(product: product)
+        SKPaymentQueue.defaultQueue().addPayment(payment);
+    }
+    
+    func buyConsumable(){
+        println("About to fetch the products");
+        // We check that we are allow to make the purchase.
+        if (SKPaymentQueue.canMakePayments())
+        {
+            var productID:NSSet = NSSet(object: self.RastaLightID);
+            var productsRequest:SKProductsRequest = SKProductsRequest(productIdentifiers: productID);
+            productsRequest.delegate = self;
+            productsRequest.start();
+            println("Fething Products");
+        }else{
+            println("can not make purchases");
+        }
     }
     
     override func prefersStatusBarHidden() -> Bool {

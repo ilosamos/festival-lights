@@ -39,3 +39,45 @@ class ColorCalculator
         return c / 255
     }
 }
+
+class TriColorCalculator : ColorCalculator
+{
+    //Mid Colors for 3rd color
+    var midr, midg, midb : Int
+    
+    //Override standard init
+    override init(){
+        midr = 127; midg = 127; midb = 127
+        super.init()
+    }
+    //Override init with 3 colors
+    init(MinRed minr : Int,MinGreen ming : Int,MinBlue minb : Int, MidRed midr : Int,MidGreen midg : Int, MidBlue midb : Int, MaxRed maxr : Int,MaxGreen maxg : Int,MaxBlue maxb : Int){
+        
+        self.midr = midr; self.midg = midg; self.midb = midb
+        super.init(MinRed: minr, MinGreen: ming, MinBlue: minb, MaxRed: maxr, MaxGreen: maxg, MaxBlue: maxb)
+    }
+    override func getUIColor(Percentage p: CGFloat) -> UIColor {
+        var p2 : CGFloat = 0
+        var currentr : CGFloat = 0
+        var currentg : CGFloat = 0
+        var currentb : CGFloat = 0
+        
+        
+        if p <= 0.5 {
+            p2 = p * 2
+            deltar = midr-minr; deltag = midg-ming; deltab = midb-minb
+            currentr = CGFloat(minr) + CGFloat(deltar) * p2
+            currentg = CGFloat(ming) + CGFloat(deltag) * p2
+            currentb = CGFloat(minb) + CGFloat(deltab) * p2
+        }
+        else {
+            p2 = (p - 0.5) * 2
+            deltar = maxr-midr; deltag = maxg-midg; deltab = maxb-midb
+            currentr = CGFloat(midr) + CGFloat(deltar) * p2
+            currentg = CGFloat(midg) + CGFloat(deltag) * p2
+            currentb = CGFloat(midb) + CGFloat(deltab) * p2
+        }
+
+        return UIColor(red: percent(ColorValue: currentr), green: percent(ColorValue: currentg), blue: percent(ColorValue: currentb), alpha: 1)
+    }
+}
