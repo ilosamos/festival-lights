@@ -11,6 +11,7 @@ import UIKit
 
 class ColorCalculator
 {
+    //Color Properties
     var minr, ming, minb : Int
     var maxr, maxg, maxb : Int
     
@@ -80,4 +81,86 @@ class TriColorCalculator : ColorCalculator
 
         return UIColor(red: percent(ColorValue: currentr), green: percent(ColorValue: currentg), blue: percent(ColorValue: currentb), alpha: 1)
     }
+}
+
+class SecretAlgorithm{
+    //Calculation Properties
+    let arrayLength : Int
+    var arrayPointer : Int
+    var apcValues : Array<Double>
+    var peakValues : Array<Double>
+    var intervalMinimum : Double
+    
+    init(){
+        arrayLength = 50
+        arrayPointer = 0
+        apcValues = Array(count: 50, repeatedValue:Double())
+        peakValues = Array(count: 50, repeatedValue:Double())
+        intervalMinimum = 30
+    }
+    
+    //This is where the magic happens
+    func doTheSecretAlgorithm(AudioRecorder audioRecorder:AudioRecorder) -> CGFloat{
+        let dFormat = "%02d"
+        let min:Int = Int(audioRecorder.recorder.currentTime / 60)
+        let sec:Int = Int(audioRecorder.recorder.currentTime % 60)
+        let s = "\(String(format: dFormat, min)):\(String(format: dFormat, sec))"
+        audioRecorder.recorder.updateMeters()
+        var apc0 = audioRecorder.recorder.averagePowerForChannel(0)
+        var peak0 = audioRecorder.recorder.peakPowerForChannel(0)
+        
+        if(arrayPointer == arrayLength){
+            arrayPointer = 0
+        }
+        
+        peakValues[arrayPointer]=Double(peak0)
+        apcValues[arrayPointer]=Double(apc0)
+        
+        var peakSum = 0.0
+        for peak in peakValues {
+            peakSum += peak;
+        }
+        var peakAverage = peakSum/(Double(peakValues.endIndex) - Double(peakValues.startIndex))
+        
+        var apcSum = 0.0
+        for apc in apcValues {
+            apcSum += apc
+        }
+        var apcAverage = apcSum/(Double(apcValues.endIndex) - Double(apcValues.startIndex))
+        var currentVolume = Double(apc0)
+        
+        var minVolume : Double = 0
+        
+        for i in 0...apcValues.count-1 {
+            if (apcValues[i] < minVolume){minVolume = apcValues[i]}
+        }
+        
+        var minLimit : Double = apcAverage - abs(apcAverage - peakAverage);
+        var maxLimit : Double = apcAverage + abs(apcAverage - peakAverage);
+        
+        // Intervall should never be under intervalMinimum
+        
+        if(maxLimit - minLimit < intervalMinimum) {
+            var tmpFactor : Double = intervalMinimum/(maxLimit - minLimit)
+            maxLimit = maxLimit*tmpFactor
+            minLimit = minLimit*tmpFactor
+            currentVolume = currentVolume*tmpFactor
+        }
+        
+        if currentVolume < minLimit {
+            currentVolume = minLimit
+        } else if currentVolume > maxLimit {
+            currentVolume = maxLimit
+        }
+        
+        var r = CGFloat(abs(maxLimit-currentVolume)/abs(maxLimit-minLimit))
+        
+        arrayPointer++
+        
+        //Loudness Percentage
+        var p = abs(1-r)
+        
+        return p
+    }
+
 }

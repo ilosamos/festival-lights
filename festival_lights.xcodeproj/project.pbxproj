@@ -16,6 +16,7 @@
 		4C455DD31A93C34900C80790 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C455DD21A93C34900C80790 /* Images.xcassets */; };
 		4C455DE21A93C34900C80790 /* festival_lightsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C455DE11A93C34900C80790 /* festival_lightsTests.swift */; };
 		4CA5F9C91AC9D77000205A8B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CA5F9C81AC9D77000205A8B /* StoreKit.framework */; };
+		4CA5F9CB1ACB0E3100205A8B /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		4C455DE01A93C34900C80790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C455DE11A93C34900C80790 /* festival_lightsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = festival_lightsTests.swift; sourceTree = "<group>"; };
 		4CA5F9C81AC9D77000205A8B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				4C455DC81A93C34900C80790 /* AppDelegate.swift */,
 				4C18E2381AB9FF66005E743B /* ColorCalculator.swift */,
 				4C455DCD1A93C34900C80790 /* ViewController.swift */,
+				4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */,
 				4C455DCF1A93C34900C80790 /* Main.storyboard */,
 				4C455DD21A93C34900C80790 /* Images.xcassets */,
 				4C455DCA1A93C34900C80790 /* festival_lights.xcdatamodeld */,
@@ -227,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CA5F9CB1ACB0E3100205A8B /* AudioRecorder.swift in Sources */,
 				4C455DCE1A93C34900C80790 /* ViewController.swift in Sources */,
 				4C18E2391AB9FF66005E743B /* ColorCalculator.swift in Sources */,
 				0337E7621A9FAB1200DEFD4F /* LightView.swift in Sources */,
