@@ -17,9 +17,8 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
     var views : Int = 3
     var currentIndex : Int = 0
     
-    @IBOutlet weak var startLabel: UILabel!
-    @IBOutlet weak var volLabel: UILabel!
-    @IBOutlet weak var peakLabel: UILabel!
+    //Only true when app starts
+    var isStart : Bool = true
     
     //Secret Algorithm Object
     var secretAlgorithm : SecretAlgorithm = SecretAlgorithm()
@@ -36,6 +35,10 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
     //In App Purchase Product IDs
     let RastaLightID = "festival_lights_rastalight"
     
+    //Start Label show on start
+    var startLabel : UILabel = UILabel(frame: CGRectMake(0, 0, 200, 30))
+    var stopLabel : UILabel = UILabel(frame: CGRectMake(0, 0, 200, 30))
+    
     //Colors
     var color1 : ColorCalculator = ColorCalculator(MinRed: 0, MinGreen: 0, MinBlue: 0, MaxRed: 255, MaxGreen: 255, MaxBlue: 255)
     var color2 : ColorCalculator = ColorCalculator(MinRed: 137, MinGreen: 27, MinBlue: 27, MaxRed: 252, MaxGreen: 255, MaxBlue: 13)
@@ -50,6 +53,10 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
         var tapGesture = UITapGestureRecognizer(target: self, action: "record:")
         tapGesture.numberOfTapsRequired = 1
         view.addGestureRecognizer(tapGesture)
+        
+        var doubletapGesture = UITapGestureRecognizer(target: self, action: "stopRecording:")
+        doubletapGesture.numberOfTapsRequired = 2
+        view.addGestureRecognizer(doubletapGesture)
 
         pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
         pageViewController!.dataSource = self
@@ -67,7 +74,20 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
         if defaults.stringForKey("UUID") == nil {
             defaults.setObject(NSUUID().UUIDString, forKey: "UUID")
         }
-        startLabel.text = defaults.stringForKey("UUID")
+        
+        startLabel.center = CGPointMake(160, 250)
+        startLabel.textAlignment = NSTextAlignment.Center
+        startLabel.font = UIFont (name: "Helvetica Neue", size: 25)
+        startLabel.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        startLabel.text = "Tap to start"
+        self.view.addSubview(startLabel)
+        
+        stopLabel.center = CGPointMake(160, 280)
+        stopLabel.textAlignment = NSTextAlignment.Center
+        stopLabel.font = UIFont (name: "Helvetica Neue", size: 18)
+        stopLabel.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        stopLabel.text = "(Double-tap to stop)"
+        self.view.addSubview(stopLabel)
         
         buyConsumable()
     }
@@ -185,25 +205,34 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
     }
 
     //Start recording after tap
-    @IBAction func record(sender: UIButton) {
+    @IBAction func record(sender: UIGestureRecognizer) {
         
         if audioRecorder.recorder == nil {
-            startLabel.hidden = true
             println("recording. recorder nil")
+            isStart = false
+            startLabel.hidden = true
+            stopLabel.hidden = true
+            println("LightView: \(pageViewController?.viewControllers[0].count)")
             recordWithPermission(true)
             return
         }
-        
+    }
+    
+    @IBAction func stopRecording(sender: UIGestureRecognizer)
+    {
         if audioRecorder.recorder != nil && audioRecorder.recorder.recording {
             println("stopping")
             audioRecorder.recorder.stop()
             audioRecorder.stop()
             audioRecorder.deleteAllRecordings()
+            startLabel.hidden = false
+            stopLabel.hidden = false
             
         } else {
             println("recording")
             recordWithPermission(false)
         }
+
     }
     
     func recordWithPermission(setup:Bool) {
