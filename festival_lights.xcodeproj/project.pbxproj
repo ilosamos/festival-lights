@@ -17,6 +17,7 @@
 		4C455DE21A93C34900C80790 /* festival_lightsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C455DE11A93C34900C80790 /* festival_lightsTests.swift */; };
 		4CA5F9C91AC9D77000205A8B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CA5F9C81AC9D77000205A8B /* StoreKit.framework */; };
 		4CA5F9CB1ACB0E3100205A8B /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */; };
+		E3062ADA8D554196E77A216F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55E0FD35F0645853A143EE5 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,9 @@
 		4C455DE11A93C34900C80790 /* festival_lightsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = festival_lightsTests.swift; sourceTree = "<group>"; };
 		4CA5F9C81AC9D77000205A8B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		50B42E60B35AD44492D74AD5 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		707087E60BED06337EA3EEBF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		F55E0FD35F0645853A143EE5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +56,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CA5F9C91AC9D77000205A8B /* StoreKit.framework in Frameworks */,
+				E3062ADA8D554196E77A216F /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0268212DCF0FFC9C9783C38B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F55E0FD35F0645853A143EE5 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1735632FED631C8F3B8F3615 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				707087E60BED06337EA3EEBF /* Pods.debug.xcconfig */,
+				50B42E60B35AD44492D74AD5 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		4C455DBA1A93C34900C80790 = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +94,8 @@
 				4C455DC51A93C34900C80790 /* festival_lights */,
 				4C455DDE1A93C34900C80790 /* festival_lightsTests */,
 				4C455DC41A93C34900C80790 /* Products */,
+				1735632FED631C8F3B8F3615 /* Pods */,
+				0268212DCF0FFC9C9783C38B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,9 +156,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C455DE51A93C34900C80790 /* Build configuration list for PBXNativeTarget "festival_lights" */;
 			buildPhases = (
+				28C2B3A6162EEEAFC0AA91C0 /* Check Pods Manifest.lock */,
 				4C455DBF1A93C34900C80790 /* Sources */,
 				4C455DC01A93C34900C80790 /* Frameworks */,
 				4C455DC11A93C34900C80790 /* Resources */,
+				C4DC33F555D653985C84189E /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -224,6 +250,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		28C2B3A6162EEEAFC0AA91C0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C4DC33F555D653985C84189E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4C455DBF1A93C34900C80790 /* Sources */ = {
@@ -348,6 +407,7 @@
 		};
 		4C455DE61A93C34900C80790 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 707087E60BED06337EA3EEBF /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -359,12 +419,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "mixpanel-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		4C455DE71A93C34900C80790 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50B42E60B35AD44492D74AD5 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -376,6 +438,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "mixpanel-Bridging-Header.h";
 			};
 			name = Release;
 		};

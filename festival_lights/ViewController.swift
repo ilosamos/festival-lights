@@ -11,11 +11,14 @@ import AVFoundation
 import Darwin
 import StoreKit
 
-class ViewController: UIViewController , UIPageViewControllerDataSource, SKProductsRequestDelegate{
+class ViewController: UIViewController , UIPageViewControllerDataSource, SKProductsRequestDelegate, SKPaymentTransactionObserver{
     
     var pageViewController : UIPageViewController?
     var views : Int = 3
     var currentIndex : Int = 0
+    
+    //Mixpanel for info tracking
+    var mixpanel : Mixpanel = Mixpanel(token: "c4862b902fa8c5c28b3240a505012ecd", andFlushInterval: 1)
     
     //Only true when app starts
     var isStart : Bool = true
@@ -47,6 +50,8 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+        
         self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         self.navigationController
         
@@ -89,7 +94,17 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
         stopLabel.text = "(Double-tap to stop)"
         self.view.addSubview(stopLabel)
         
-        buyConsumable()
+        //buyConsumable()
+        addButton()
+    }
+    
+    func addButton(){
+        let buyBottom = UIButton(frame: CGRectMake(100, 320, 200, 40))
+        buyBottom.setTitle("Buy Consumable", forState: UIControlState.Normal);
+        buyBottom.backgroundColor = UIColor(red: 0.0, green: 0.2, blue: 0.2, alpha: 1.0)
+        buyBottom.addTarget(self, action: "buyConsumable", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(buyBottom);
+        
     }
     
     func productsRequest (request: SKProductsRequest, didReceiveResponse response: SKProductsResponse){
@@ -129,6 +144,34 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
             println("Fething Products");
         }else{
             println("can not make purchases");
+        }
+    }
+    
+    func paymentQueue(queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!)    {
+        println("Received Payment Transaction Response from Apple");
+        
+        for transaction:AnyObject in transactions {
+            if let trans:SKPaymentTransaction = transaction as? SKPaymentTransaction{
+                switch trans.transactionState {
+                case .Purchased:
+                    println("Product Purchased");
+                    SKPaymentQueue.defaultQueue().finishTransaction(transaction as SKPaymentTransaction)
+                    //mixpanel.track("Purchase successful (Rastalights)")
+                    break;
+                case .Failed:
+                    println("Purchased Failed");
+                    var alert = UIAlertController(title: "Failed", message: "Product has not been purchased", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    SKPaymentQueue.defaultQueue().finishTransaction(transaction as SKPaymentTransaction)
+                    //mixpanel.track("Purchase error (Rastalights)")
+                    break;
+                    // case .Restored:
+                    //[self restoreTransaction:transaction];
+                default:
+                    break;
+                }
+            }
         }
     }
     
