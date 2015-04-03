@@ -32,8 +32,6 @@ class AudioRecorder : NSObject
         recorder = nil
     }
     
-    
-    
     func setSessionPlayAndRecord() {
         let session:AVAudioSession = AVAudioSession.sharedInstance()
         var error: NSError?

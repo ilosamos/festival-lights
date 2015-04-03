@@ -15,6 +15,7 @@
 		4C455DD11A93C34900C80790 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C455DCF1A93C34900C80790 /* Main.storyboard */; };
 		4C455DD31A93C34900C80790 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C455DD21A93C34900C80790 /* Images.xcassets */; };
 		4C455DE21A93C34900C80790 /* festival_lightsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C455DE11A93C34900C80790 /* festival_lightsTests.swift */; };
+		4C992F1F1ACEB187005686FE /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C992F1E1ACEB187005686FE /* UserInterface.swift */; };
 		4CA5F9C91AC9D77000205A8B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CA5F9C81AC9D77000205A8B /* StoreKit.framework */; };
 		4CA5F9CB1ACB0E3100205A8B /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */; };
 		E3062ADA8D554196E77A216F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55E0FD35F0645853A143EE5 /* libPods.a */; };
@@ -43,6 +44,7 @@
 		4C455DDB1A93C34900C80790 /* festival_lightsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = festival_lightsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C455DE01A93C34900C80790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C455DE11A93C34900C80790 /* festival_lightsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = festival_lightsTests.swift; sourceTree = "<group>"; };
+		4C992F1E1ACEB187005686FE /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
 		4CA5F9C81AC9D77000205A8B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		50B42E60B35AD44492D74AD5 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			children = (
 				4C455DC81A93C34900C80790 /* AppDelegate.swift */,
 				4C18E2381AB9FF66005E743B /* ColorCalculator.swift */,
+				4C992F1E1ACEB187005686FE /* UserInterface.swift */,
 				4C455DCD1A93C34900C80790 /* ViewController.swift */,
 				4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */,
 				4C455DCF1A93C34900C80790 /* Main.storyboard */,
@@ -291,6 +294,7 @@
 			files = (
 				4CA5F9CB1ACB0E3100205A8B /* AudioRecorder.swift in Sources */,
 				4C455DCE1A93C34900C80790 /* ViewController.swift in Sources */,
+				4C992F1F1ACEB187005686FE /* UserInterface.swift in Sources */,
 				4C18E2391AB9FF66005E743B /* ColorCalculator.swift in Sources */,
 				0337E7621A9FAB1200DEFD4F /* LightView.swift in Sources */,
 				4C455DCC1A93C34900C80790 /* festival_lights.xcdatamodeld in Sources */,

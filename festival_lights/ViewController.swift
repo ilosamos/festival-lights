@@ -38,9 +38,9 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
     //In App Purchase Product IDs
     let RastaLightID = "festival_lights_rastalight"
     
-    //Start Label show on start
-    var startLabel : UILabel = UILabel(frame: CGRectMake(0, 0, 200, 30))
-    var stopLabel : UILabel = UILabel(frame: CGRectMake(0, 0, 200, 30))
+    //Labels to show on start
+    var startLabel : UILabel = UserInterface.getStartLabel()
+    var stopLabel : UILabel = UserInterface.getStopLabel()
     
     //Colors
     var color1 : ColorCalculator = ColorCalculator(MinRed: 0, MinGreen: 0, MinBlue: 0, MaxRed: 255, MaxGreen: 255, MaxBlue: 255)
@@ -53,7 +53,6 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
         SKPaymentQueue.defaultQueue().addTransactionObserver(self)
         
         self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-        self.navigationController
         
         var tapGesture = UITapGestureRecognizer(target: self, action: "record:")
         tapGesture.numberOfTapsRequired = 1
@@ -63,6 +62,7 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
         doubletapGesture.numberOfTapsRequired = 2
         view.addGestureRecognizer(doubletapGesture)
 
+        //Configure PageViewController for navigation
         pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
         pageViewController!.dataSource = self
         
@@ -72,29 +72,18 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
         pageViewController!.view.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
         pageViewController?.navigationController?.automaticallyAdjustsScrollViewInsets = false
         pageViewController?.navigationController?.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-            
+
         addChildViewController(pageViewController!)
         view.addSubview(pageViewController!.view)
         pageViewController!.didMoveToParentViewController(self)
         if defaults.stringForKey("UUID") == nil {
             defaults.setObject(NSUUID().UUIDString, forKey: "UUID")
         }
-        
-        startLabel.center = CGPointMake(160, 250)
-        startLabel.textAlignment = NSTextAlignment.Center
-        startLabel.font = UIFont (name: "Helvetica Neue", size: 25)
-        startLabel.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
-        startLabel.text = "Tap to start"
+    
+        //Add Labels to show on start
         self.view.addSubview(startLabel)
-        
-        stopLabel.center = CGPointMake(160, 280)
-        stopLabel.textAlignment = NSTextAlignment.Center
-        stopLabel.font = UIFont (name: "Helvetica Neue", size: 18)
-        stopLabel.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
-        stopLabel.text = "(Double-tap to stop)"
         self.view.addSubview(stopLabel)
         
-        //buyConsumable()
         addButton()
     }
     
