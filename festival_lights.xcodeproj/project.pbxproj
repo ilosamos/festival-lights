@@ -45,6 +45,7 @@
 		4C455DE01A93C34900C80790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C455DE11A93C34900C80790 /* festival_lightsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = festival_lightsTests.swift; sourceTree = "<group>"; };
 		4C992F1E1ACEB187005686FE /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
+		4C992F211ACEB537005686FE /* mixpanel-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mixpanel-Bridging-Header.h"; sourceTree = "<group>"; };
 		4CA5F9C81AC9D77000205A8B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		50B42E60B35AD44492D74AD5 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 		4C455DBA1A93C34900C80790 = {
 			isa = PBXGroup;
 			children = (
+				4C992F211ACEB537005686FE /* mixpanel-Bridging-Header.h */,
 				4CA5F9C81AC9D77000205A8B /* StoreKit.framework */,
 				4C455DC51A93C34900C80790 /* festival_lights */,
 				4C455DDE1A93C34900C80790 /* festival_lightsTests */,
