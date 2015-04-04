@@ -16,9 +16,11 @@
 		4C455DD31A93C34900C80790 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C455DD21A93C34900C80790 /* Images.xcassets */; };
 		4C455DE21A93C34900C80790 /* festival_lightsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C455DE11A93C34900C80790 /* festival_lightsTests.swift */; };
 		4C992F1F1ACEB187005686FE /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C992F1E1ACEB187005686FE /* UserInterface.swift */; };
+		4C992F241ACED0A4005686FE /* Locksmith.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C992F221ACED0A4005686FE /* Locksmith.swift */; };
+		4C992F251ACED0A4005686FE /* LocksmithRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C992F231ACED0A4005686FE /* LocksmithRequest.swift */; };
 		4CA5F9C91AC9D77000205A8B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CA5F9C81AC9D77000205A8B /* StoreKit.framework */; };
 		4CA5F9CB1ACB0E3100205A8B /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */; };
-		E3062ADA8D554196E77A216F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55E0FD35F0645853A143EE5 /* libPods.a */; };
+		6158C57E1F8C229256589B15 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB7CADA8E669F8D57AE18B04 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,12 +47,14 @@
 		4C455DE01A93C34900C80790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C455DE11A93C34900C80790 /* festival_lightsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = festival_lightsTests.swift; sourceTree = "<group>"; };
 		4C992F1E1ACEB187005686FE /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
-		4C992F211ACEB537005686FE /* mixpanel-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mixpanel-Bridging-Header.h"; sourceTree = "<group>"; };
+		4C992F221ACED0A4005686FE /* Locksmith.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Locksmith.swift; sourceTree = "<group>"; };
+		4C992F231ACED0A4005686FE /* LocksmithRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocksmithRequest.swift; sourceTree = "<group>"; };
+		4C992F271ACED0D7005686FE /* mixpanel-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "mixpanel-Bridging-Header.h"; sourceTree = "<group>"; };
 		4CA5F9C81AC9D77000205A8B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		50B42E60B35AD44492D74AD5 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		707087E60BED06337EA3EEBF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		F55E0FD35F0645853A143EE5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB7CADA8E669F8D57AE18B04 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CA5F9C91AC9D77000205A8B /* StoreKit.framework in Frameworks */,
-				E3062ADA8D554196E77A216F /* libPods.a in Frameworks */,
+				6158C57E1F8C229256589B15 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +80,7 @@
 		0268212DCF0FFC9C9783C38B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F55E0FD35F0645853A143EE5 /* libPods.a */,
+				BB7CADA8E669F8D57AE18B04 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -93,7 +97,7 @@
 		4C455DBA1A93C34900C80790 = {
 			isa = PBXGroup;
 			children = (
-				4C992F211ACEB537005686FE /* mixpanel-Bridging-Header.h */,
+				4C992F271ACED0D7005686FE /* mixpanel-Bridging-Header.h */,
 				4CA5F9C81AC9D77000205A8B /* StoreKit.framework */,
 				4C455DC51A93C34900C80790 /* festival_lights */,
 				4C455DDE1A93C34900C80790 /* festival_lightsTests */,
@@ -120,11 +124,12 @@
 				4C992F1E1ACEB187005686FE /* UserInterface.swift */,
 				4C455DCD1A93C34900C80790 /* ViewController.swift */,
 				4CA5F9CA1ACB0E3100205A8B /* AudioRecorder.swift */,
+				0337E7611A9FAB1200DEFD4F /* LightView.swift */,
 				4C455DCF1A93C34900C80790 /* Main.storyboard */,
 				4C455DD21A93C34900C80790 /* Images.xcassets */,
 				4C455DCA1A93C34900C80790 /* festival_lights.xcdatamodeld */,
+				4C992F261ACED0A8005686FE /* Locksmith */,
 				4C455DC61A93C34900C80790 /* Supporting Files */,
-				0337E7611A9FAB1200DEFD4F /* LightView.swift */,
 			);
 			path = festival_lights;
 			sourceTree = "<group>";
@@ -152,6 +157,15 @@
 				4C455DE01A93C34900C80790 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4C992F261ACED0A8005686FE /* Locksmith */ = {
+			isa = PBXGroup;
+			children = (
+				4C992F221ACED0A4005686FE /* Locksmith.swift */,
+				4C992F231ACED0A4005686FE /* LocksmithRequest.swift */,
+			);
+			name = Locksmith;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,9 +308,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C992F241ACED0A4005686FE /* Locksmith.swift in Sources */,
 				4CA5F9CB1ACB0E3100205A8B /* AudioRecorder.swift in Sources */,
 				4C455DCE1A93C34900C80790 /* ViewController.swift in Sources */,
 				4C992F1F1ACEB187005686FE /* UserInterface.swift in Sources */,
+				4C992F251ACED0A4005686FE /* LocksmithRequest.swift in Sources */,
 				4C18E2391AB9FF66005E743B /* ColorCalculator.swift in Sources */,
 				0337E7621A9FAB1200DEFD4F /* LightView.swift in Sources */,
 				4C455DCC1A93C34900C80790 /* festival_lights.xcdatamodeld in Sources */,

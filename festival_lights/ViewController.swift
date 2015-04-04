@@ -13,8 +13,9 @@ import StoreKit
 
 class ViewController: UIViewController , UIPageViewControllerDataSource, SKProductsRequestDelegate, SKPaymentTransactionObserver{
     
+    //Page View Controller for Navigation
     var pageViewController : UIPageViewController?
-    var views : Int = 3
+    var views : Int = 4
     var currentIndex : Int = 0
     
     //Mixpanel for info tracking
@@ -37,16 +38,21 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
     
     //In App Purchase Product IDs
     let RastaLightID = "festival_lights_rastalight"
+    var isRestoring : Bool = false
     
-    //Labels to show on start
+    //Interface Elements
     var startLabel : UILabel = UserInterface.getStartLabel()
     var stopLabel : UILabel = UserInterface.getStopLabel()
+    var buyButton : UIButton = UserInterface.getBuyButton()
+    var restoreButton : UIButton = UserInterface.getRestoreButton()
+    var hideView : UIView = UserInterface.getHideView()
     
     //Colors
     var color1 : ColorCalculator = ColorCalculator(MinRed: 0, MinGreen: 0, MinBlue: 0, MaxRed: 255, MaxGreen: 255, MaxBlue: 255)
     var color2 : ColorCalculator = ColorCalculator(MinRed: 137, MinGreen: 27, MinBlue: 27, MaxRed: 252, MaxGreen: 255, MaxBlue: 13)
     var color3 : ColorCalculator = ColorCalculator(MinRed: 93, MinGreen: 200, MinBlue: 223, MaxRed: 255, MaxGreen: 0, MaxBlue: 234)
-    //var color3 : ColorCalculator = TriColorCalculator(MinRed: 61, MinGreen: 222, MinBlue: 30, MidRed: 249, MidGreen: 235, MidBlue: 24, MaxRed: 245, MaxGreen: 19, MaxBlue: 41)
+    //color4 = Purchased Rastacolor
+    var color4 : ColorCalculator = TriColorCalculator(MinRed: 30, MinGreen: 150, MinBlue: 0, MidRed: 255, MidGreen: 242, MidBlue: 0, MaxRed: 245, MaxGreen: 19, MaxBlue: 0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,17 +89,6 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
         //Add Labels to show on start
         self.view.addSubview(startLabel)
         self.view.addSubview(stopLabel)
-        
-        addButton()
-    }
-    
-    func addButton(){
-        let buyBottom = UIButton(frame: CGRectMake(100, 320, 200, 40))
-        buyBottom.setTitle("Buy Consumable", forState: UIControlState.Normal);
-        buyBottom.backgroundColor = UIColor(red: 0.0, green: 0.2, blue: 0.2, alpha: 1.0)
-        buyBottom.addTarget(self, action: "buyConsumable", forControlEvents: UIControlEvents.TouchUpInside)
-        self.view.addSubview(buyBottom);
-        
     }
     
     func productsRequest (request: SKProductsRequest, didReceiveResponse response: SKProductsResponse){
@@ -106,7 +101,12 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
                 println(validProduct.localizedTitle)
                 println(validProduct.localizedDescription)
                 println(validProduct.price)
-                buyProduct(validProduct);
+                if !isRestoring {
+                    buyProduct(validProduct)
+                }
+                else {
+                    restoreProduct()
+                }
             } else {
                 println(validProduct.productIdentifier)
             }
@@ -121,8 +121,15 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
         SKPaymentQueue.defaultQueue().addPayment(payment);
     }
     
-    func buyConsumable(){
+    func restoreProduct(){
+        println("Sending the restore Payment Request to Apple");
+        SKPaymentQueue.defaultQueue().restoreCompletedTransactions();
+    }
+    
+    func buyNonConsumable(){
         println("About to fetch the products");
+        buyButton.enabled = false
+        println("buyButton disabled")
         // We check that we are allow to make the purchase.
         if (SKPaymentQueue.canMakePayments())
         {
@@ -135,6 +142,12 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
             println("can not make purchases");
         }
     }
+    func restoreNonConsumable(){
+        restoreButton.enabled = false
+        println("restoreButton disabled")
+        isRestoring = true
+        buyNonConsumable()
+    }
     
     func paymentQueue(queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!)    {
         println("Received Payment Transaction Response from Apple");
@@ -142,10 +155,21 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
         for transaction:AnyObject in transactions {
             if let trans:SKPaymentTransaction = transaction as? SKPaymentTransaction{
                 switch trans.transactionState {
-                case .Purchased:
+                case .Purchased, .Restored:
                     println("Product Purchased");
                     SKPaymentQueue.defaultQueue().finishTransaction(transaction as SKPaymentTransaction)
                     //mixpanel.track("Purchase successful (Rastalights)")
+                    let error = Locksmith.saveData(["purchase": "rastalights"], forUserAccount: defaults.stringForKey("UUID")!)
+                    let (dictionary, err) = Locksmith.loadDataForUserAccount(defaults.stringForKey("UUID")!)
+                    var uuid = defaults.stringForKey("UUID")
+                    println("Did save purchase for UUID: \(uuid) product: \(dictionary)")
+                    hideView.removeFromSuperview()
+                    buyButton.removeFromSuperview()
+                    restoreButton.removeFromSuperview()
+                    if trans.transactionState == .Restored{
+                        var alert = UIAlertController(title: "Success", message: "Your product has been restored", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.Default, handler: nil))
+                    }
                     break;
                 case .Failed:
                     println("Purchased Failed");
@@ -155,11 +179,12 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
                     SKPaymentQueue.defaultQueue().finishTransaction(transaction as SKPaymentTransaction)
                     //mixpanel.track("Purchase error (Rastalights)")
                     break;
-                    // case .Restored:
-                    //[self restoreTransaction:transaction];
                 default:
                     break;
                 }
+                buyButton.enabled = true
+                restoreButton.enabled = true
+                isRestoring = false
             }
         }
     }
@@ -218,6 +243,23 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
             pageContentViewController.view.backgroundColor = color2.getUIColor(Percentage: 0)
         case 2:
             pageContentViewController.view.backgroundColor = color3.getUIColor(Percentage: 0)
+        case 3:
+            pageContentViewController.view.backgroundColor = color4.getUIColor(Percentage: 0)
+            let uuid = defaults.stringForKey("UUID")
+            let (dictionary, error) = Locksmith.loadDataForUserAccount(uuid!)
+            if dictionary == nil {
+                buyButton.addTarget(self, action: "buyNonConsumable", forControlEvents: UIControlEvents.TouchUpInside)
+                restoreButton.addTarget(self, action: "restoreNonConsumable", forControlEvents: UIControlEvents.TouchUpInside)
+                pageContentViewController.view.addSubview(hideView)
+                pageContentViewController.view.addSubview(buyButton)
+                pageContentViewController.view.addSubview(restoreButton)
+            }
+            else if dictionary?.valueForKey("purchase") as String != "rastalights" {
+                buyButton.addTarget(self, action: "buyNonConsumable", forControlEvents: UIControlEvents.TouchUpInside)
+                pageContentViewController.view.addSubview(hideView)
+                pageContentViewController.view.addSubview(buyButton)
+                pageContentViewController.view.addSubview(restoreButton)
+            }
         default:
             break
         }
@@ -260,11 +302,7 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
             startLabel.hidden = false
             stopLabel.hidden = false
             
-        } else {
-            println("recording")
-            recordWithPermission(false)
         }
-
     }
     
     func recordWithPermission(setup:Bool) {
@@ -304,6 +342,9 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
             (pageViewController?.viewControllers[0] as LightView).changeColor(color2.getUIColor(Percentage: p))
         case 2:
             (pageViewController?.viewControllers[0] as LightView).changeColor(color3.getUIColor(Percentage: p))
+        case 3:
+            (pageViewController?.viewControllers[0] as LightView).changeColor(color4.getUIColor(Percentage: p))
+
         default:
             break
         }
