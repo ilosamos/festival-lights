@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Hide status bar on launch
         application.statusBarHidden = true
-        
+        application.idleTimerDisabled = true
         //Simulated Duration of Launch Image
          sleep(1)
         return true

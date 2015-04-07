@@ -46,4 +46,9 @@ class UserInterface
         hideView.backgroundColor = UIColor(white: 0.3, alpha: 0.8)
         return hideView
     }
+    class func getActivityIndicator() -> UIActivityIndicatorView {
+        let activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        activityView.center = CGPointMake(160, 370)
+        return activityView
+    }
 }

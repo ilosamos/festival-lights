@@ -46,6 +46,7 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
     var buyButton : UIButton = UserInterface.getBuyButton()
     var restoreButton : UIButton = UserInterface.getRestoreButton()
     var hideView : UIView = UserInterface.getHideView()
+    var activityView : UIActivityIndicatorView = UserInterface.getActivityIndicator()
     
     //Colors
     var color1 : ColorCalculator = ColorCalculator(MinRed: 0, MinGreen: 0, MinBlue: 0, MaxRed: 255, MaxGreen: 255, MaxBlue: 255)
@@ -93,6 +94,8 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
     
     func productsRequest (request: SKProductsRequest, didReceiveResponse response: SKProductsResponse){
         println("got the request from Apple")
+        activityView.stopAnimating()
+        self.view.addSubview(activityView)
         var count : Int = response.products.count
         if (count>0) {
             var validProducts = response.products
@@ -128,6 +131,8 @@ class ViewController: UIViewController , UIPageViewControllerDataSource, SKProdu
     
     func buyNonConsumable(){
         println("About to fetch the products");
+        activityView.startAnimating()
+        self.view.addSubview(activityView)
         buyButton.enabled = false
         println("buyButton disabled")
         // We check that we are allow to make the purchase.
